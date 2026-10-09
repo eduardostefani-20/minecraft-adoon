@@ -1,0 +1,7 @@
+{
+  "parent": "easy_villagers:block/farm",
+  "textures": {
+    "front": "minecraft:block/oak_planks",
+    "back": "minecraft:block/oak_planks"
+  }
+}

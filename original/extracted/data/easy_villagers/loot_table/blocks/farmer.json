@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "easy_villagers:copy_block_entity"
+            }
+          ],
+          "name": "easy_villagers:farmer"
+        }
+      ]
+    }
+  ]
+}

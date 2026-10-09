@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: corelib-2.1.12+26.1.2-api.jar
+

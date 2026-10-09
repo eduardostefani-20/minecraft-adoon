@@ -1,0 +1,29 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Easy Villagers (Bedrock) RP",
+    "description": "Conversão do mod Easy Villagers (Max Henkel) para Bedrock - recursos",
+    "uuid": "420affcf-615a-4b39-b135-fa8a96fe5739",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      0
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "6be19e04-5e66-4cfd-9e24-cbf8c6646815",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}

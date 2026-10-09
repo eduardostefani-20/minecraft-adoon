@@ -1,0 +1,12 @@
+{
+  "resource_pack_name": "easy_villagers",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "ev_villager": {
+      "textures": "textures/easy_villagers/items/villager"
+    },
+    "ev_baby_villager": {
+      "textures": "textures/easy_villagers/items/baby_villager"
+    }
+  }
+}

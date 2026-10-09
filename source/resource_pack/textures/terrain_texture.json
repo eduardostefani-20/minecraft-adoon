@@ -1,0 +1,206 @@
+{
+  "resource_pack_name": "easy_villagers",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "ev_barrel_side": {
+      "textures": "textures/blocks/barrel_side"
+    },
+    "ev_barrel_top": {
+      "textures": "textures/blocks/barrel_top"
+    },
+    "ev_beetroots_stage_0": {
+      "textures": "textures/blocks/beetroots_stage_0"
+    },
+    "ev_beetroots_stage_1": {
+      "textures": "textures/blocks/beetroots_stage_1"
+    },
+    "ev_beetroots_stage_2": {
+      "textures": "textures/blocks/beetroots_stage_2"
+    },
+    "ev_beetroots_stage_3": {
+      "textures": "textures/blocks/beetroots_stage_3"
+    },
+    "ev_blast_furnace_side": {
+      "textures": "textures/blocks/blast_furnace_side"
+    },
+    "ev_blast_furnace_top": {
+      "textures": "textures/blocks/blast_furnace_top"
+    },
+    "ev_brewing_stand": {
+      "textures": "textures/blocks/brewing_stand"
+    },
+    "ev_brewing_stand_base": {
+      "textures": "textures/blocks/brewing_stand_base"
+    },
+    "ev_carrots_stage_0": {
+      "textures": "textures/blocks/carrots_stage_0"
+    },
+    "ev_carrots_stage_1": {
+      "textures": "textures/blocks/carrots_stage_1"
+    },
+    "ev_carrots_stage_2": {
+      "textures": "textures/blocks/carrots_stage_2"
+    },
+    "ev_carrots_stage_3": {
+      "textures": "textures/blocks/carrots_stage_3"
+    },
+    "ev_cartography_table_side1": {
+      "textures": "textures/blocks/cartography_table_side1"
+    },
+    "ev_cartography_table_top": {
+      "textures": "textures/blocks/cartography_table_top"
+    },
+    "ev_cauldron_side": {
+      "textures": "textures/blocks/cauldron_side"
+    },
+    "ev_cauldron_top": {
+      "textures": "textures/blocks/cauldron_top"
+    },
+    "ev_cobblestone_mossy": {
+      "textures": "textures/blocks/cobblestone_mossy"
+    },
+    "ev_composter_side": {
+      "textures": "textures/blocks/composter_side"
+    },
+    "ev_composter_top": {
+      "textures": "textures/blocks/composter_top"
+    },
+    "ev_dirt": {
+      "textures": "textures/blocks/dirt"
+    },
+    "ev_farm": {
+      "textures": "textures/easy_villagers/blocks/farm"
+    },
+    "ev_farm_rot": {
+      "textures": "textures/easy_villagers/blocks/farm_rot"
+    },
+    "ev_fletcher_table_side1": {
+      "textures": "textures/blocks/fletcher_table_side1"
+    },
+    "ev_fletcher_table_top": {
+      "textures": "textures/blocks/fletcher_table_top"
+    },
+    "ev_glass": {
+      "textures": "textures/blocks/glass"
+    },
+    "ev_grindstone_round": {
+      "textures": "textures/blocks/grindstone_round"
+    },
+    "ev_grindstone_side": {
+      "textures": "textures/blocks/grindstone_side"
+    },
+    "ev_iron_block": {
+      "textures": "textures/blocks/iron_block"
+    },
+    "ev_lava_still": {
+      "textures": "textures/blocks/lava_still"
+    },
+    "ev_lectern_sides": {
+      "textures": "textures/blocks/lectern_sides"
+    },
+    "ev_lectern_top": {
+      "textures": "textures/blocks/lectern_top"
+    },
+    "ev_loom_side": {
+      "textures": "textures/blocks/loom_side"
+    },
+    "ev_loom_top": {
+      "textures": "textures/blocks/loom_top"
+    },
+    "ev_netherite_block": {
+      "textures": "textures/blocks/netherite_block"
+    },
+    "ev_pitcher_crop_bottom_stage_0": {
+      "textures": "textures/blocks/pitcher_crop_bottom_stage_0"
+    },
+    "ev_pitcher_crop_bottom_stage_1": {
+      "textures": "textures/blocks/pitcher_crop_bottom_stage_1"
+    },
+    "ev_pitcher_crop_bottom_stage_2": {
+      "textures": "textures/blocks/pitcher_crop_bottom_stage_2"
+    },
+    "ev_pitcher_crop_bottom_stage_3": {
+      "textures": "textures/blocks/pitcher_crop_bottom_stage_3"
+    },
+    "ev_pitcher_crop_bottom_stage_4": {
+      "textures": "textures/blocks/pitcher_crop_bottom_stage_4"
+    },
+    "ev_planks_oak": {
+      "textures": "textures/blocks/planks_oak"
+    },
+    "ev_potatoes_stage_0": {
+      "textures": "textures/blocks/potatoes_stage_0"
+    },
+    "ev_potatoes_stage_1": {
+      "textures": "textures/blocks/potatoes_stage_1"
+    },
+    "ev_potatoes_stage_2": {
+      "textures": "textures/blocks/potatoes_stage_2"
+    },
+    "ev_potatoes_stage_3": {
+      "textures": "textures/blocks/potatoes_stage_3"
+    },
+    "ev_smithing_table_side": {
+      "textures": "textures/blocks/smithing_table_side"
+    },
+    "ev_smithing_table_top": {
+      "textures": "textures/blocks/smithing_table_top"
+    },
+    "ev_smoker_side": {
+      "textures": "textures/blocks/smoker_side"
+    },
+    "ev_smoker_top": {
+      "textures": "textures/blocks/smoker_top"
+    },
+    "ev_stone": {
+      "textures": "textures/blocks/stone"
+    },
+    "ev_stonecutter2_side": {
+      "textures": "textures/blocks/stonecutter2_side"
+    },
+    "ev_stonecutter2_top": {
+      "textures": "textures/blocks/stonecutter2_top"
+    },
+    "ev_torchflower_crop_stage_0": {
+      "textures": "textures/blocks/torchflower_crop_stage_0"
+    },
+    "ev_torchflower_crop_stage_1": {
+      "textures": "textures/blocks/torchflower_crop_stage_1"
+    },
+    "ev_wheat_stage_0": {
+      "textures": "textures/blocks/wheat_stage_0"
+    },
+    "ev_wheat_stage_1": {
+      "textures": "textures/blocks/wheat_stage_1"
+    },
+    "ev_wheat_stage_2": {
+      "textures": "textures/blocks/wheat_stage_2"
+    },
+    "ev_wheat_stage_3": {
+      "textures": "textures/blocks/wheat_stage_3"
+    },
+    "ev_wheat_stage_4": {
+      "textures": "textures/blocks/wheat_stage_4"
+    },
+    "ev_wheat_stage_5": {
+      "textures": "textures/blocks/wheat_stage_5"
+    },
+    "ev_wheat_stage_6": {
+      "textures": "textures/blocks/wheat_stage_6"
+    },
+    "ev_wheat_stage_7": {
+      "textures": "textures/blocks/wheat_stage_7"
+    },
+    "ev_wool_colored_black": {
+      "textures": "textures/blocks/wool_colored_black"
+    },
+    "ev_wool_colored_red": {
+      "textures": "textures/blocks/wool_colored_red"
+    },
+    "ev_wool_colored_white": {
+      "textures": "textures/blocks/wool_colored_white"
+    }
+  }
+}

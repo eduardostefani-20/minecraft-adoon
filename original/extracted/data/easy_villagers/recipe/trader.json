@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GRG",
+    "III"
+  ],
+  "key": {
+    "G": "#c:glass_panes/colorless",
+    "I": "#c:ingots/iron",
+    "R": "#c:dusts/redstone"
+  },
+  "result": {
+    "id": "easy_villagers:trader"
+  }
+}

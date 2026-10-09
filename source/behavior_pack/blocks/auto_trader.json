@@ -1,0 +1,993 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "easy_villagers:auto_trader",
+      "menu_category": {
+        "category": "items"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ],
+          "y_rotation_offset": 180
+        }
+      },
+      "states": {
+        "easy_villagers:workstation": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
+        ]
+      }
+    },
+    "components": {
+      "minecraft:display_name": "block.easy_villagers.auto_trader",
+      "minecraft:geometry": {
+        "identifier": "geometry.easy_villagers.farm",
+        "bone_visibility": {
+          "frame": true,
+          "workstation": "q.block_state('easy_villagers:workstation') > 0",
+          "crop": false,
+          "bed": false
+        }
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "ev_iron_block",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "glass": {
+          "texture": "ev_glass",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "iron": {
+          "texture": "ev_iron_block",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "frame": {
+          "texture": "ev_farm",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "frame_rot": {
+          "texture": "ev_farm_rot",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "floor_front": {
+          "texture": "ev_netherite_block",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "floor_back": {
+          "texture": "ev_netherite_block",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "ws_side": {
+          "texture": "ev_composter_side",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        },
+        "ws_top": {
+          "texture": "ev_composter_top",
+          "render_method": "alpha_test",
+          "ambient_occlusion": false,
+          "face_dimming": false
+        }
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 2.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 2.5
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:map_color": "#A7A7A7",
+      "minecraft:loot": "loot_tables/blocks/easy_villagers/auto_trader.json",
+      "minecraft:tick": {
+        "interval_range": [
+          20,
+          20
+        ],
+        "looping": true
+      },
+      "easy_villagers:machine": {
+        "kind": "auto_trader"
+      },
+      "tag:minecraft:is_pickaxe_item_destructible": {},
+      "tag:easy_villagers:machine": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              -90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_composter_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_composter_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_barrel_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_barrel_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_loom_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_loom_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_fletcher_table_side1",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_fletcher_table_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_lectern_sides",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_lectern_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_cartography_table_side1",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_cartography_table_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_brewing_stand_base",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_brewing_stand",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_blast_furnace_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_blast_furnace_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_grindstone_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_grindstone_round",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_smithing_table_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_smithing_table_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_smoker_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_smoker_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_cauldron_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_cauldron_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('easy_villagers:workstation') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "glass": {
+              "texture": "ev_glass",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "iron": {
+              "texture": "ev_iron_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame": {
+              "texture": "ev_farm",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "frame_rot": {
+              "texture": "ev_farm_rot",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_front": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "floor_back": {
+              "texture": "ev_netherite_block",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_side": {
+              "texture": "ev_stonecutter2_side",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            },
+            "ws_top": {
+              "texture": "ev_stonecutter2_top",
+              "render_method": "alpha_test",
+              "ambient_occlusion": false,
+              "face_dimming": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}

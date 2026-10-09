@@ -1,0 +1,7 @@
+[
+  {
+    "flipbook_texture": "textures/blocks/lava_still",
+    "atlas_tile": "ev_lava_still",
+    "ticks_per_frame": 2
+  }
+]

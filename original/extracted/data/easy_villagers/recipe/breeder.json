@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GBG",
+    "IWI"
+  ],
+  "key": {
+    "G": "#c:glass_panes/colorless",
+    "I": "#c:ingots/iron",
+    "B": "#minecraft:beds",
+    "W": "#minecraft:planks"
+  },
+  "result": {
+    "id": "easy_villagers:breeder"
+  }
+}

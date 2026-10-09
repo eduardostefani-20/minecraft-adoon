@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "G G",
+    "IWI"
+  ],
+  "key": {
+    "G": "#c:glass_panes/colorless",
+    "I": "#c:ingots/iron",
+    "W": "minecraft:white_wool"
+  },
+  "result": {
+    "id": "easy_villagers:incubator"
+  }
+}

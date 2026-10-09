@@ -1,0 +1,13 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.easy_villagers.display.scale": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "scale": "query.property('easy_villagers:scale') / 100.0 * (query.property('easy_villagers:baby') ? 0.5 : 1.0)"
+        }
+      }
+    }
+  }
+}

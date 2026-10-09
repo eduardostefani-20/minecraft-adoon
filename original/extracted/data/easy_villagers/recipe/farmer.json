@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GWG",
+    "IDI"
+  ],
+  "key": {
+    "G": "#c:glass_panes/colorless",
+    "I": "#c:ingots/iron",
+    "D": "minecraft:dirt",
+    "W": "minecraft:water_bucket"
+  },
+  "result": {
+    "id": "easy_villagers:farmer"
+  }
+}

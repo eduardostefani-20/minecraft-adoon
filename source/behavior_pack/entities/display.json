@@ -1,0 +1,109 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "easy_villagers:display",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "easy_villagers:kind": {
+          "type": "int",
+          "range": [
+            0,
+            3
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "easy_villagers:profession": {
+          "type": "int",
+          "range": [
+            0,
+            14
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "easy_villagers:biome": {
+          "type": "int",
+          "range": [
+            0,
+            6
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "easy_villagers:baby": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "easy_villagers:zombified": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "easy_villagers:hurt": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "easy_villagers:scale": {
+          "type": "int",
+          "range": [
+            10,
+            100
+          ],
+          "default": 45,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "easy_villagers_display",
+          "inanimate"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.01,
+        "height": 0.01
+      },
+      "minecraft:health": {
+        "value": 1,
+        "max": 1
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:fire_immune": {},
+      "minecraft:persistent": {},
+      "minecraft:inventory": {
+        "inventory_size": 12,
+        "container_type": "inventory",
+        "private": true
+      },
+      "minecraft:nameable": {
+        "always_show": false,
+        "allow_name_tag_renaming": false
+      }
+    }
+  }
+}

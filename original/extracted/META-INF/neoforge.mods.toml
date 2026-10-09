@@ -1,0 +1,43 @@
+modLoader = "javafml"
+loaderVersion = "*"
+license = "All rights reserved"
+issueTrackerURL = "https://github.com/henkelmax/easy-villagers/issues"
+[[mods]]
+modId = "easy_villagers"
+version = "1.1.42+26.1.2"
+displayName = "Easy Villagers"
+updateJSONURL = "https://update.maxhenkel.de/neoforge/easy_villagers"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/easy-villagers"
+logoFile = "icon.png"
+authors = "Max Henkel"
+description = '''Easy Villagers'''
+[[dependencies.easy_villagers]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26.1.0.1-beta,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.easy_villagers]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26.1,26.2)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.easy_villagers]]
+modId = "jei"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.easy_villagers]]
+modId = "theoneprobe"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.easy_villagers]]
+modId = "jade"
+type = "optional"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"

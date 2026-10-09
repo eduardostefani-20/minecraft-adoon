@@ -1,0 +1,118 @@
+{
+  "format_version": "1.8.0",
+  "render_controllers": {
+    "controller.render.easy_villagers.villager_base": {
+      "geometry": "Geometry.villager",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.villager"
+      ],
+      "overlay_color": {
+        "r": 0.25,
+        "g": 0.6,
+        "b": 0.2,
+        "a": "query.property('easy_villagers:zombified') ? 0.55 : 0.0"
+      }
+    },
+    "controller.render.easy_villagers.villager_biome": {
+      "arrays": {
+        "textures": {
+          "Array.biomes": [
+            "Texture.biome_plains",
+            "Texture.biome_desert",
+            "Texture.biome_jungle",
+            "Texture.biome_savanna",
+            "Texture.biome_snow",
+            "Texture.biome_swamp",
+            "Texture.biome_taiga"
+          ]
+        }
+      },
+      "geometry": "Geometry.villager_l1",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Array.biomes[query.property('easy_villagers:biome')]"
+      ],
+      "overlay_color": {
+        "r": 0.25,
+        "g": 0.6,
+        "b": 0.2,
+        "a": "query.property('easy_villagers:zombified') ? 0.55 : 0.0"
+      }
+    },
+    "controller.render.easy_villagers.villager_profession": {
+      "arrays": {
+        "textures": {
+          "Array.professions": [
+            "Texture.prof_farmer",
+            "Texture.prof_farmer",
+            "Texture.prof_fisherman",
+            "Texture.prof_shepherd",
+            "Texture.prof_fletcher",
+            "Texture.prof_librarian",
+            "Texture.prof_cartographer",
+            "Texture.prof_cleric",
+            "Texture.prof_armorer",
+            "Texture.prof_weaponsmith",
+            "Texture.prof_toolsmith",
+            "Texture.prof_butcher",
+            "Texture.prof_leatherworker",
+            "Texture.prof_stonemason",
+            "Texture.prof_nitwit"
+          ]
+        }
+      },
+      "geometry": "Geometry.villager_l2",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Array.professions[query.property('easy_villagers:profession')]"
+      ],
+      "overlay_color": {
+        "r": 0.25,
+        "g": 0.6,
+        "b": 0.2,
+        "a": "query.property('easy_villagers:zombified') ? 0.55 : 0.0"
+      }
+    },
+    "controller.render.easy_villagers.zombie": {
+      "geometry": "Geometry.zombie",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.zombie"
+      ]
+    },
+    "controller.render.easy_villagers.golem": {
+      "geometry": "Geometry.golem",
+      "materials": [
+        {
+          "*": "Material.default"
+        }
+      ],
+      "textures": [
+        "Texture.golem"
+      ],
+      "overlay_color": {
+        "r": 1.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": "query.property('easy_villagers:hurt') && math.mod(math.floor(query.life_time * 2.0), 2) == 0 ? 0.5 : 0.0"
+      }
+    }
+  }
+}

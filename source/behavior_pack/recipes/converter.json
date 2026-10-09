@@ -1,0 +1,39 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "easy_villagers:converter"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "GGG",
+      "GFG",
+      "ICI"
+    ],
+    "key": {
+      "G": {
+        "item": "minecraft:glass_pane"
+      },
+      "I": {
+        "item": "minecraft:iron_ingot"
+      },
+      "F": {
+        "item": "minecraft:rotten_flesh"
+      },
+      "C": {
+        "item": "minecraft:mossy_cobblestone"
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:glass_pane"
+      }
+    ],
+    "result": {
+      "item": "easy_villagers:converter",
+      "count": 1
+    }
+  }
+}

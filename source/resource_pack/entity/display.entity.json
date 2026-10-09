@@ -1,0 +1,69 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "easy_villagers:display",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "villager": "textures/entity/villager2/villager",
+        "zombie": "textures/entity/zombie/zombie",
+        "golem": "textures/entity/iron_golem",
+        "biome_plains": "textures/entity/villager2/biomes/biome_plains",
+        "biome_desert": "textures/entity/villager2/biomes/biome_desert",
+        "biome_jungle": "textures/entity/villager2/biomes/biome_jungle",
+        "biome_savanna": "textures/entity/villager2/biomes/biome_savanna",
+        "biome_snow": "textures/entity/villager2/biomes/biome_snow",
+        "biome_swamp": "textures/entity/villager2/biomes/biome_swamp",
+        "biome_taiga": "textures/entity/villager2/biomes/biome_taiga",
+        "prof_farmer": "textures/entity/villager2/professions/farmer",
+        "prof_fisherman": "textures/entity/villager2/professions/fisherman",
+        "prof_shepherd": "textures/entity/villager2/professions/shepherd",
+        "prof_fletcher": "textures/entity/villager2/professions/fletcher",
+        "prof_librarian": "textures/entity/villager2/professions/librarian",
+        "prof_cartographer": "textures/entity/villager2/professions/cartographer",
+        "prof_cleric": "textures/entity/villager2/professions/cleric",
+        "prof_armorer": "textures/entity/villager2/professions/armorer",
+        "prof_weaponsmith": "textures/entity/villager2/professions/weaponsmith",
+        "prof_toolsmith": "textures/entity/villager2/professions/toolsmith",
+        "prof_butcher": "textures/entity/villager2/professions/butcher",
+        "prof_leatherworker": "textures/entity/villager2/professions/leatherworker",
+        "prof_stonemason": "textures/entity/villager2/professions/stonemason",
+        "prof_nitwit": "textures/entity/villager2/professions/nitwit"
+      },
+      "geometry": {
+        "villager": "geometry.easy_villagers.villager",
+        "villager_l1": "geometry.easy_villagers.villager_l1",
+        "villager_l2": "geometry.easy_villagers.villager_l2",
+        "zombie": "geometry.easy_villagers.zombie",
+        "golem": "geometry.easy_villagers.iron_golem"
+      },
+      "animations": {
+        "scale": "animation.easy_villagers.display.scale"
+      },
+      "scripts": {
+        "animate": [
+          "scale"
+        ]
+      },
+      "render_controllers": [
+        {
+          "controller.render.easy_villagers.villager_base": "query.property('easy_villagers:kind') == 1"
+        },
+        {
+          "controller.render.easy_villagers.villager_biome": "query.property('easy_villagers:kind') == 1"
+        },
+        {
+          "controller.render.easy_villagers.villager_profession": "query.property('easy_villagers:kind') == 1 && query.property('easy_villagers:profession') > 0"
+        },
+        {
+          "controller.render.easy_villagers.zombie": "query.property('easy_villagers:kind') == 2"
+        },
+        {
+          "controller.render.easy_villagers.golem": "query.property('easy_villagers:kind') == 3"
+        }
+      ]
+    }
+  }
+}

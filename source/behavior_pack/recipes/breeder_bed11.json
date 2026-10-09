@@ -1,0 +1,40 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "easy_villagers:breeder_bed11"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "GGG",
+      "GBG",
+      "IWI"
+    ],
+    "key": {
+      "G": {
+        "item": "minecraft:glass_pane"
+      },
+      "I": {
+        "item": "minecraft:iron_ingot"
+      },
+      "W": {
+        "tag": "minecraft:planks"
+      },
+      "B": {
+        "item": "minecraft:bed",
+        "data": 11
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:glass_pane"
+      }
+    ],
+    "result": {
+      "item": "easy_villagers:breeder",
+      "count": 1
+    }
+  }
+}

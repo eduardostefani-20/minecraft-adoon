@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GFG",
+    "ICI"
+  ],
+  "key": {
+    "G": "#c:glass_panes/colorless",
+    "I": "#c:ingots/iron",
+    "F": "minecraft:rotten_flesh",
+    "C": "minecraft:mossy_cobblestone"
+  },
+  "result": {
+    "id": "easy_villagers:converter"
+  }
+}

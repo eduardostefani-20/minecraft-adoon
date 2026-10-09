@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GRG",
+    "INI"
+  ],
+  "key": {
+    "G": "#c:glass_panes/colorless",
+    "I": "#c:ingots/iron",
+    "R": "#c:dusts/redstone",
+    "N": "#c:ingots/netherite"
+  },
+  "result": {
+    "id": "easy_villagers:auto_trader"
+  }
+}
