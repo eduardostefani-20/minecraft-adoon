@@ -37,6 +37,7 @@ export class ItemStack {
     return this.maxAmount > 1 && o.typeId === this.typeId && JSON.stringify(o.props) === JSON.stringify(this.props) && o.potion === this.potion;
   }
   getDynamicProperty(k) { return this.props[k]; }
+  getDynamicPropertyIds() { return Object.keys(this.props); }
   setDynamicProperty(k, v) {
     if (this.maxAmount > 1) throw new Error("propriedade dinâmica em item empilhável");
     this.props[k] = v;
@@ -90,7 +91,7 @@ class Entity {
     this.isSneaking = false;
     this.isSleeping = false;
     this.components = {};
-    if (typeId === "easy_villagers:display") this.components["minecraft:inventory"] = { container: new Container(12) };
+    if (typeId === "easy_villagers:display") this.components["minecraft:inventory"] = { container: new Container(27) };
     if (typeId === "minecraft:villager_v2") {
       this.components["minecraft:variant"] = { value: 0 };
       this.components["minecraft:mark_variant"] = { value: 0 };
@@ -119,6 +120,8 @@ class Entity {
     if (m && this.components["minecraft:variant"]) this.components["minecraft:variant"].value = PROFS.indexOf(m[1]);
     if (e === "minecraft:entity_born") this.components["minecraft:is_baby"] = {};
     if (e === "minecraft:ageable_grow_up") delete this.components["minecraft:is_baby"];
+    if (e === "easy_villagers:become_big") this.big = true;
+    if (e === "easy_villagers:become_small") this.big = false;
   }
 }
 const PROFS = ["unskilled", "farmer", "fisherman", "shepherd", "fletcher", "librarian", "cartographer", "cleric", "armorer", "weaponsmith", "toolsmith", "butcher", "leatherworker", "mason", "nitwit"];
@@ -133,27 +136,38 @@ export class Player extends Entity {
     this.onScreenDisplay = { setActionBar: (m) => this.messages.push(m) };
   }
   getGameMode() { return this.gameMode; }
+  getRotation() { return { x: 0, y: this.yaw ?? 0 }; }
   playSound() {}
   sendMessage(m) { this.messages.push(m); }
 }
 
+const BLOCK_STATES = {
+  "easy_villagers:trader": { "easy_villagers:workstation": 0 },
+  "easy_villagers:auto_trader": { "easy_villagers:workstation": 0 },
+  "easy_villagers:farmer": { "easy_villagers:crop": 0, "easy_villagers:stage": 0 },
+};
+export class BlockPermutation {
+  static resolve(type, states = {}) {
+    return new Permutation(type, { "minecraft:cardinal_direction": "north", ...(BLOCK_STATES[type] ?? {}), ...states });
+  }
+}
 class Permutation {
-  constructor(type, states) { this.type = type; this.states = states; }
+  constructor(typeId, states) { this.typeId = typeId; this.type = { id: typeId }; this.states = states; }
   getState(k) { return this.states[k]; }
   withState(k, v) {
     if (!(k in this.states)) throw new Error(`estado inexistente ${k}`);
-    return new Permutation(this.type, { ...this.states, [k]: v });
+    return new Permutation(this.typeId, { ...this.states, [k]: v });
   }
-  hasTag(t) { return this.type.startsWith("easy_villagers:") && t === "easy_villagers:machine"; }
+  hasTag(t) { return this.typeId.startsWith("easy_villagers:") && !this.typeId.endsWith("_packed") && t === "easy_villagers:machine"; }
 }
 
 export class Block {
   constructor(dim, loc, type, states = {}) {
     this.dimension = dim; this.location = loc; this.isValid = true;
-    this.permutation = new Permutation(type, { "minecraft:cardinal_direction": "north", ...states });
+    this.permutation = BlockPermutation.resolve(type, states);
     this.inventory = undefined;
   }
-  get typeId() { return this.permutation.type; }
+  get typeId() { return this.permutation.typeId; }
   get isAir() { return this.typeId === "minecraft:air"; }
   get isLiquid() { return false; }
   hasTag(t) { return this.permutation.hasTag(t); }
@@ -175,6 +189,7 @@ class Dimension {
   spawnEntity(type, loc, opts) {
     const e = new Entity(type, this, loc);
     if (opts?.spawnEvent) e.triggerEvent(opts.spawnEvent);
+    if (type === "easy_villagers:display") e.big = false;
     return e;
   }
   allEntities() { return [...world._entities.values()].filter((e) => e.dimension === this && e.isValid); }

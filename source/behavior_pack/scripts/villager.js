@@ -11,7 +11,6 @@ import { waitTicks } from "./util.js";
 /** @typedef {import("@minecraft/server").Entity} Entity */
 /** @typedef {import("@minecraft/server").Dimension} Dimension */
 /** @typedef {import("@minecraft/server").Vector3} Vector3 */
-/** @typedef {import("./logic.js").AutoState} AutoState */
 
 /**
  * @typedef {object} VData
@@ -22,7 +21,6 @@ import { waitTicks } from "./util.js";
  * @property {number} age       idade estilo Java (<0 = bebê)
  * @property {string} [name]
  * @property {string[]} pending eventos a aplicar quando o aldeão for liberado
- * @property {AutoState} [auto] mercador virtual do Comerciante Automático
  */
 
 const PROP = "ev:data";
@@ -60,7 +58,6 @@ export function readData(/** @type {ItemStack} */ stack) {
 export function describe(/** @type {VData} */ d) {
   const lines = [`§7${PROF_PT[d.prof] ?? PROFESSIONS[d.prof]} (${BIOME_PT[d.biome] ?? BIOMES[d.biome]})`];
   if (d.baby) lines.push("§7Bebê");
-  if (d.auto) lines.push(`§7Nível de troca automática: ${d.auto.lvl}`);
   return lines;
 }
 
@@ -209,7 +206,6 @@ export function assignProfession(/** @type {VData} */ d, /** @type {number} */ p
   d.prof = prof;
   d.pending = d.pending.filter((e) => !e.startsWith("minecraft:spawn_"));
   d.pending.push(professionEvent(prof));
-  delete d.auto;
   return true;
 }
 

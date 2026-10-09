@@ -44,10 +44,12 @@ source/resource_pack/
 
 | Java (NeoForge) | Bedrock |
 |---|---|
-| `BlockEntity` com inventário/NBT | Entidade técnica `easy_villagers:display` dentro do bloco: inventário de 12 espaços + estado JSON em propriedade dinâmica |
+| `BlockEntity` com inventário/NBT | Entidade técnica `easy_villagers:display` no centro do bloco: inventário de 27 espaços (aberto como baú) + estado JSON em propriedade dinâmica |
 | `BlockEntityTicker` (a cada tick) | Componente `minecraft:tick` a cada 20 ticks + componente de script `easy_villagers:machine`; temporizadores avançam 20 por execução (mesmos tempos totais) |
 | `useItemOn` / `useWithoutItem` | `world.beforeEvents.playerInteractWithBlock` (cancelado e tratado no tick seguinte) |
-| Telas (containers) | Formulários `ActionFormData` + inserção direta segurando o item |
+| Telas (containers) | Interface de baú nativa da entidade da máquina + menu de estado (`ActionFormData`) |
+| Tela de troca | Aldeão real hospedado nos dois comerciantes → tela vanilla |
+| `copy_block_entity` (conteúdo no item) | Item não empilhável `<bloco>_packed` com propriedade dinâmica |
 | `VillagerItem` com NBT completo | Item `easy_villagers:villager` (pilha 1) com propriedades dinâmicas + **estrutura salva no mundo** contendo a entidade real (trocas, nível, XP, inventário, nome, fofocas) |
 | `BlockEntityRenderer` | Entidade de exibição com propriedades sincronizadas (profissão, bioma, bebê, zumbificado, ferido, escala) |
 | Estação/cultura renderizadas | Partes da geometria do bloco com visibilidade por estado (`easy_villagers:workstation`, `crop`, `stage`) |
@@ -73,7 +75,6 @@ Operadores podem usar (requer comandos ativados):
 | golem_spawn_time | 4800 | iron_farm.spawn_time |
 | trader_min/max_restock_time | 1200 / 3600 | trader.* |
 | auto_trader_min/max_restock_time | 1200 / 3600 | auto_trader.* |
-| auto_trader_cooldown | 20 | auto_trader.trade_cooldown |
 | villager_inventory_sounds | true | villager.inventory_sounds |
 | villager_sound_amount | 20 | villager.sound_amount |
 | incubator_speed | 2 | incubator.speed |
@@ -82,7 +83,7 @@ Operadores podem usar (requer comandos ativados):
 | render_block_contents | true | (cliente) villager.render_block_contents |
 | hopper_automation | true | (novo) liga/desliga a automação com funis |
 
-`farmer.crop_blacklist`, `villager.trade_cycling`, `villager.universal_reputation`,
+`auto_trader.trade_cooldown` (o Comerciante Automático não troca mais sozinho), `farmer.crop_blacklist`, `villager.trade_cycling`, `villager.universal_reputation`,
 `cycle_trades_button_location` e `block_render_distance` não têm equivalente (ver
 `limitacoes.md`).
 

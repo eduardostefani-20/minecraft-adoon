@@ -2,10 +2,10 @@
 // Easy Villagers (Bedrock) — ponto de entrada dos scripts.
 import { GameMode, system, world } from "@minecraft/server";
 import { cfg, describeConfig, setConfig } from "./config.js";
-import { NS, TICK_STEP, VANILLA_VILLAGER } from "./constants.js";
+import { DISPLAY_ENTITY, NS, TICK_STEP, VANILLA_VILLAGER, workstationForItem } from "./constants.js";
 import {
-  createMachine, interact, inventoryTick, isMachineBlock, keyOf, pickUpVillager, releaseFromItem,
-  removeMachineAt, sweep, tickMachine,
+  blockOfMachine, createMachine, interact, inventoryTick, isMachineBlock, isPackedItem, keyOf, machineTouchMode,
+  pickUpVillager, placePacked, releaseFromItem, removeMachineAt, sweep, tickMachine,
 } from "./machines.js";
 import { HOST_TAG, isVillagerItem } from "./villager.js";
 
@@ -34,10 +34,20 @@ system.beforeEvents.startup.subscribe((ev) => {
   });
 });
 
-// Interação com blocos: máquinas e soltar aldeão no chão.
+// Interação com blocos: máquinas, máquina cheia e soltar aldeão no chão.
 world.beforeEvents.playerInteractWithBlock.subscribe((ev) => {
   const { player, block, itemStack } = ev;
   const machine = isMachineBlock(block);
+  if (isPackedItem(itemStack) && itemStack && !(machine && !player.isSneaking)) {
+    ev.cancel = true;
+    if (!ev.isFirstEvent) return;
+    const face = ev.blockFace;
+    system.run(() => {
+      const target = neighbor(block, face);
+      if (target) void placePacked(player, target, itemStack);
+    });
+    return;
+  }
   // Agachado com item na mão: comportamento vanilla (ex.: colocar bloco), como no Java.
   if (machine && !(player.isSneaking && itemStack)) {
     ev.cancel = true;
@@ -57,37 +67,51 @@ world.beforeEvents.playerInteractWithBlock.subscribe((ev) => {
     const face = ev.blockFace;
     system.run(() => {
       // VillagerItem.useOn: se o bloco tem colisão, nasce no bloco vizinho da face.
-      let target = block;
-      try {
-        if (!block.isAir && !block.isLiquid) {
-          const off = { Up: [0, 1, 0], Down: [0, -1, 0], North: [0, 0, -1], South: [0, 0, 1], East: [1, 0, 0], West: [-1, 0, 0] }[face] ?? [0, 1, 0];
-          target = block.offset({ x: off[0], y: off[1], z: off[2] }) ?? block;
-        }
-      } catch { /* mantém o bloco */ }
+      const target = block.isAir || block.isLiquid ? block : neighbor(block, face) ?? block;
       const l = target.location;
       void releaseFromItem(player, itemStack, { x: l.x + 0.5, y: l.y, z: l.z + 0.5 });
     });
   }
 });
 
-// Interação com entidades: pegar aldeões e o aldeão hospedado no Comerciante.
+/** Bloco vizinho na face tocada. */
+function neighbor(/** @type {Block} */ block, /** @type {string} */ face) {
+  const off = { Up: [0, 1, 0], Down: [0, -1, 0], North: [0, 0, -1], South: [0, 0, 1], East: [1, 0, 0], West: [-1, 0, 0] }[face] ?? [0, 1, 0];
+  try {
+    return block.offset({ x: off[0], y: off[1], z: off[2] });
+  } catch {
+    return undefined;
+  }
+}
+
+// Interação com entidades: aldeão do Comerciante (tela de troca vanilla),
+// interface de baú das máquinas e pegar aldeões.
 world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
   const { player, target } = ev;
+  const held = ev.itemStack;
+  if (target.typeId === DISPLAY_ENTITY) {
+    if (target.getDynamicProperty("ev:role") !== "machine") return;
+    // Interface de baú nativa, exceto ações especiais (inserir aldeão/semente, agachar para retirar).
+    if (machineTouchMode(player, target, held) === "chest") return;
+    ev.cancel = true;
+    system.run(() => {
+      const block = blockOfMachine(target);
+      try { if (block && isMachineBlock(block)) interact(player, block); } catch (err) { console.warn(`[${NS}] ${err}`); }
+    });
+    return;
+  }
   if (target.typeId !== VANILLA_VILLAGER) return;
   if (target.hasTag(HOST_TAG)) {
     const loc = target.location;
     const block = target.dimension.getBlock({ x: Math.floor(loc.x), y: Math.floor(loc.y), z: Math.floor(loc.z) });
     if (!block || !isMachineBlock(block)) return;
     const sneaking = player.isSneaking;
-    const hasItem = !!ev.itemStack;
-    // Sem agachar e com mão vazia/item comum, decide após rodar a lógica do bloco;
-    // como o evento "before" não pode alterar o mundo, prevemos o resultado:
-    // itens de aldeão/estação e agachar+mão vazia são tratados pelo bloco.
-    const special = (sneaking && !hasItem) || (!sneaking && hasItem && wantsBlock(ev.itemStack?.typeId ?? ""));
-    if (!special) return; // abre a tela de troca normalmente
+    // Sem agachar e sem item especial: abre a tela de troca vanilla normalmente.
+    const special = (sneaking && !held) || (!sneaking && !!held && wantsBlock(held.typeId));
+    if (!special) return;
     ev.cancel = true;
     system.run(() => {
-      try { interact(player, block, true); } catch (err) { console.warn(`[${NS}] ${err}`); }
+      try { interact(player, block); } catch (err) { console.warn(`[${NS}] ${err}`); }
     });
     return;
   }
@@ -99,25 +123,23 @@ world.beforeEvents.playerInteractWithEntity.subscribe((ev) => {
 
 /** Itens que o Comerciante consome quando usados no aldeão hospedado. */
 function wantsBlock(/** @type {string} */ id) {
-  return id === `${NS}:villager` || id === `${NS}:baby_villager` || [
-    "minecraft:composter", "minecraft:barrel", "minecraft:loom", "minecraft:fletching_table",
-    "minecraft:lectern", "minecraft:cartography_table", "minecraft:brewing_stand", "minecraft:blast_furnace",
-    "minecraft:grindstone", "minecraft:smithing_table", "minecraft:smoker", "minecraft:cauldron",
-    "minecraft:stonecutter_block", "minecraft:stonecutter",
-  ].includes(id);
+  return id === `${NS}:villager` || id === `${NS}:baby_villager` || workstationForItem(id) > 0;
 }
 
-// Quebra do bloco por jogador: conteúdo cai (exceto no criativo, como no Java).
+// Quebra do bloco: o conteúdo fica guardado no item (no criativo nada cai, como no Java).
 world.afterEvents.playerBreakBlock.subscribe((ev) => {
-  if (!ev.brokenBlockPermutation.hasTag(`${NS}:machine`)) return;
-  const drop = ev.player.getGameMode() !== GameMode.Creative;
-  removeMachineAt(ev.block.dimension, ev.block.location, drop);
+  const perm = ev.brokenBlockPermutation;
+  if (!perm.hasTag(`${NS}:machine`)) return;
+  const kind = perm.type.id.slice(NS.length + 1);
+  const mode = ev.player.getGameMode() === GameMode.Creative ? "none" : "pack";
+  removeMachineAt(ev.block.dimension, ev.block.location, kind, mode);
 });
 
-// Explosões: conteúdo cai.
+// Explosões: o item do bloco cai com o conteúdo.
 world.afterEvents.blockExplode.subscribe((ev) => {
-  if (!ev.explodedBlockPermutation.hasTag(`${NS}:machine`)) return;
-  removeMachineAt(ev.dimension, ev.block.location, true);
+  const perm = ev.explodedBlockPermutation;
+  if (!perm.hasTag(`${NS}:machine`)) return;
+  removeMachineAt(ev.dimension, ev.block.location, perm.type.id.slice(NS.length + 1), "pack");
 });
 
 // Tarefas periódicas leves.

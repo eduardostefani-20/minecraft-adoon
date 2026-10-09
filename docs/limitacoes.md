@@ -2,25 +2,31 @@
 
 Cada item explica o motivo técnico e o que foi feito no lugar.
 
-1. **Ofertas do aldeão não são acessíveis por script.** A Script API não lê nem altera
-   as trocas de um aldeão. Consequências:
-   - *Comerciante Automático*: usa um "mercador virtual" por aldeão (nível, XP e 2 trocas
-     sorteadas por nível) baseado na tabela vanilla do Java (`scripts/trades.js`).
-     Ele começa no nível 1 mesmo se o aldeão já era mestre no mundo, e não muda as
-     trocas reais do aldeão. Trocas com encantamentos, mapas, flechas com efeito,
-     ensopado suspeito ou couro tingido foram omitidas. Preços não variam por demanda.
-   - *Ciclo de trocas*: não convertido. Alternativa vanilla: quebrar e recolocar a
-     estação de trabalho antes da primeira troca.
-   - *Reputação universal*: não convertida.
+1. **Ofertas do aldeão não são acessíveis por script.** A Script API não lê nem executa
+   as trocas de um aldeão. Por isso o **Comerciante Automático** agora usa a tela de troca
+   vanilla (como o Comerciante) e **não troca sozinho** — escolha feita pelo usuário para
+   manter as trocas reais. O *ciclo de trocas* e a *reputação universal* também não foram
+   convertidos. Alternativa vanilla para novas trocas: quebrar e recolocar a estação de
+   trabalho antes da primeira troca.
 
 2. **Desconto de cura do Conversor.** No Bedrock o desconto depende de o próprio
    jogador curar o aldeão-zumbi; não há API para registrar isso. O Conversor
    executa o ciclo inteiro, mas o aldeão sai sem desconto.
 
-3. **Tela de troca só abre clicando no aldeão.** Por isso o Comerciante mantém o aldeão
-   real dentro do bloco (invisível, com lentidão e resistência máximas, preso no centro).
-   A colisão desse bloco é só o piso. Para quebrar o bloco, mire na moldura ou retire
-   o aldeão antes (agachar + mão vazia).
+3. **Tela de troca só abre tocando no aldeão.** Os dois comerciantes mantêm o aldeão real
+   dentro do bloco (invisível, com lentidão e resistência máximas, preso no centro). A
+   área de toque do aldeão vanilla tem 0,6 bloco de largura: toques no centro do bloco
+   abrem a troca; toques bem na borda passam por ele.
+
+3b. **Seleção do bloco só no piso (3 px).** É o que deixa o toque chegar ao aldeão ou à
+   interface de baú. Para quebrar uma máquina, mire no piso.
+
+3c. **Interface de baú.** É o inventário de 27 espaços da entidade da máquina
+   (`container_type: minecart_chest`). ⚠️ Confirmar no jogo que tocar abre o baú; se não
+   abrir, o menu de estado (tocar no piso) continua permitindo coletar a saída e retirar
+   as entradas. Os espaços não têm rótulo: linha 1 = aldeões, linha 2 = entrada,
+   linha 3 = saída; itens colocados em lugar inválido são devolvidos na frente do bloco.
+   Entradas e saídas passaram de 4 para 9 espaços para preencher as linhas do baú.
 
 4. **Reabastecimento do Comerciante** usa o evento `minecraft:resupply_trades` do
    `villager_v2` vanilla. ⚠️ Verificar no jogo; se a sua versão não tiver esse evento,
@@ -30,10 +36,12 @@ Cada item explica o motivo técnico e o que foi feito no lugar.
    No Java a troca acontece se o aldeão tiver 0 de XP; como o XP não é legível no
    Bedrock, só aldeões **desempregados** recebem a nova profissão.
 
-6. **Itens de bloco não guardam conteúdo.** No Bedrock só itens não empilháveis aceitam
-   dados. Ao quebrar uma máquina, o aldeão, a estação, a semente e os itens caem no chão
-   (no modo criativo, como no Java, o conteúdo é perdido — mas um aldeão vivo do
-   Comerciante é libertado, nunca apagado).
+6. **Conteúdo guardado no item do bloco.** Itens empilháveis não aceitam dados no
+   Bedrock, então uma máquina quebrada com conteúdo cai como o item não empilhável
+   "… (com conteúdo)" (vazia, cai o bloco normal). Itens com encantamento, poção,
+   durabilidade gasta ou nome não podem ser recriados por script e caem separados.
+   No criativo nada cai (como no Java); o aldeão vivo de um comerciante é libertado.
+   Se o bloco sumir por pistão ou `/setblock`, o conteúdo cai solto.
 
 7. **Aldeão guardado como estrutura.** Cada item de aldeão aponta para uma estrutura
    salva no mundo. Se o item for destruído (lava, cacto, /clear) a estrutura fica
@@ -44,12 +52,8 @@ Cada item explica o motivo técnico e o que foi feito no lugar.
    assume-se 20 minutos. Bebês nascidos no Criador ganham o bioma do local onde
    forem soltos.
 
-9. **Telas Java → formulários.** Itens são colocados nas entradas segurando-os e
-   tocando no bloco; saídas e entradas são retiradas pelo menu. Não há arrastar
-   espaço a espaço.
-
 10. **Visualizador de Inventário** edita só o inventário de 8 espaços (não o
-    equipamento) e não tem automação com funis. Cada edição recoloca o aldeão
+    equipamento), por menu, e não tem automação com funis. Cada edição recoloca o aldeão
     temporariamente no topo do mundo por ~2 ticks.
 
 11. **Dispensador soltando aldeão**: o Bedrock não oferece evento de dispensador; não convertido.

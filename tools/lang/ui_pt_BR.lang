@@ -26,7 +26,6 @@ ui.easy_villagers.crop.6=Planta-jarro
 ui.easy_villagers.villager_line=Aldeão: %s
 ui.easy_villagers.villager2_line=Aldeão 2: %s
 ui.easy_villagers.workstation_line=Estação de trabalho: %s
-ui.easy_villagers.trader_hint=Toque no aldeão dentro do bloco para negociar.
 ui.easy_villagers.level_line=Nível %s - XP %s
 ui.easy_villagers.trade_line=Troca %s/%s: %s -> %s (%s/%s usos restantes)
 ui.easy_villagers.out_of_stock=Esgotada - aguardando reabastecimento
@@ -47,3 +46,5 @@ ui.easy_villagers.btn.inventory=Abrir inventário do aldeão
 ui.easy_villagers.btn.take=Retirar:
 ui.easy_villagers.btn.deposit=Guardar o item da mão no inventário do aldeão
 ui.easy_villagers.btn.close=Fechar
+ui.easy_villagers.trader_hint=Toque no aldeão dentro do bloco para abrir a tela de troca. Toque no piso do bloco para ver este menu.
+ui.easy_villagers.chest_hint=Toque dentro do bloco para abrir a interface de baú: linha 1 = aldeões, linha 2 = entrada, linha 3 = saída.

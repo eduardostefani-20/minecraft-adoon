@@ -12,10 +12,19 @@ Registro persistente para continuar o trabalho em sessões futuras.
 - [x] FASE 7–9: gerador, validador, testes (13 de regras + 12 de simulação), pacotes em `release/`.
 - [x] FASE 10: documentação.
 
+## Sessão 2 (pedido do usuário)
+
+- [x] Texturas mantidas iguais às do mod (escolha do usuário).
+- [x] Troca: Comerciante e Comerciante Automático usam a tela de troca vanilla com o aldeão real; mercador virtual removido.
+- [x] "Jeito do Bedrock": interface de baú (27 espaços) nas máquinas com itens; conteúdo guardado no item do bloco ao quebrar (8 itens `_packed` com ícones gerados).
+- [x] Seleção do bloco só no piso; caixa de toque da entidade varia (grande/mínima).
+- [x] 26 testes (11 regras + 15 simulação), validador sem erros, pacotes regenerados.
+
 ## Próximos passos sugeridos
 
 1. Rodar `docs/testes-manuais.md` num Android com Bedrock 1.26+ e anotar o resultado aqui.
 2. Corrigir caminhos de texturas vanilla que aparecerem sem textura (lista em `tools/validate.py`).
 3. Confirmar o evento `minecraft:resupply_trades` e os eventos `minecraft:spawn_<profissão>`.
-4. Se a Script API ganhar acesso às ofertas de aldeões, trocar o mercador virtual
-   do Comerciante Automático pelas ofertas reais e portar o ciclo de trocas.
+4. Confirmar que tocar na entidade da máquina abre a interface de baú (`minecart_chest`).
+5. Se a Script API ganhar acesso às ofertas de aldeões, devolver a troca automática ao
+   Comerciante Automático (com as ofertas reais) e portar o ciclo de trocas.

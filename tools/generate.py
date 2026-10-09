@@ -11,6 +11,7 @@ Uso:  python3 tools/generate.py
 import json
 import os
 import shutil
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -34,6 +35,7 @@ RP_UUID = "420affcf-615a-4b39-b135-fa8a96fe5739"
 RP_RES_UUID = "6be19e04-5e66-4cfd-9e24-cbf8c6646815"
 
 BLOCK_FORMAT = "1.21.90"
+SELECT_HEIGHT = 3  # altura (px) da área de seleção do bloco
 ITEM_FORMAT = "1.21.90"
 ENTITY_FORMAT = "1.21.90"
 
@@ -267,17 +269,19 @@ def gen_blocks():
         }
         if states:
             description["states"] = states
-        # O Comerciante hospeda o aldeão real dentro do bloco: colisão só no piso.
-        collision = ({"origin": [-8, 0, -8], "size": [16, 1, 16]} if block == "trader"
+        # Os comerciantes hospedam o aldeão real dentro do bloco: colisão só no piso.
+        collision = ({"origin": [-8, 0, -8], "size": [16, 1, 16]} if block in ("trader", "auto_trader")
                      else {"origin": [-8, 0, -8], "size": [16, 16, 16]})
-        loot = (f"loot_tables/blocks/{NS}/empty.json" if block == "inventory_viewer"
-                else f"loot_tables/blocks/{NS}/{block}.json")
+        # O drop é feito pelo script (item normal ou item "com conteúdo").
+        loot = f"loot_tables/blocks/{NS}/empty.json"
         comps = {
             "minecraft:display_name": f"block.{NS}.{block}",
             "minecraft:geometry": {"identifier": f"geometry.{NS}.farm", "bone_visibility": vis},
             "minecraft:material_instances": mats,
             "minecraft:collision_box": collision,
-            "minecraft:selection_box": {"origin": [-8, 0, -8], "size": [16, 16, 16]},
+            # Seleção só no piso: o toque no interior chega ao aldeão (tela de troca)
+            # ou à entidade da máquina (interface de baú). Para quebrar, mire no piso.
+            "minecraft:selection_box": {"origin": [-8, 0, -8], "size": [16, SELECT_HEIGHT, 16]},
             "minecraft:destructible_by_mining": {"seconds_to_destroy": 2.5},
             "minecraft:destructible_by_explosion": {"explosion_resistance": 2.5},
             "minecraft:light_dampening": 0,
@@ -292,9 +296,6 @@ def gen_blocks():
             "format_version": BLOCK_FORMAT,
             "minecraft:block": {"description": description, "components": comps, "permutations": perms},
         })
-        if block != "inventory_viewer":
-            write_json(BP / "loot_tables" / "blocks" / NS / f"{block}.json", {
-                "pools": [{"rolls": 1, "entries": [{"type": "item", "name": f"{NS}:{block}", "weight": 1}]}]})
     write_json(BP / "loot_tables" / "blocks" / NS / "empty.json", {"pools": []})
     write_json(RP / "blocks.json", {"format_version": [1, 1, 0],
                                     **{f"{NS}:{b}": {"sound": "metal"} for b in BLOCKS}})
@@ -316,12 +317,28 @@ def gen_items():
                 },
             },
         })
+    tex = {
+        "ev_villager": {"textures": f"textures/{NS}/items/villager"},
+        "ev_baby_villager": {"textures": f"textures/{NS}/items/baby_villager"},
+    }
+    # Máquina com conteúdo (não empilhável, guarda aldeões/itens/estado)
+    for block in BLOCKS:
+        write_json(BP / "items" / f"{block}_packed.json", {
+            "format_version": ITEM_FORMAT,
+            "minecraft:item": {
+                "description": {"identifier": f"{NS}:{block}_packed",
+                                "menu_category": {"category": "none"}},
+                "components": {
+                    "minecraft:icon": {"textures": {"default": f"ev_{block}_packed"}},
+                    "minecraft:max_stack_size": 1,
+                    "minecraft:display_name": {"value": f"item.{NS}.{block}_packed"},
+                    "minecraft:glint": True,
+                },
+            },
+        })
+        tex[f"ev_{block}_packed"] = {"textures": f"textures/{NS}/items/{block}_packed"}
     write_json(RP / "textures" / "item_texture.json", {
-        "resource_pack_name": NS, "texture_name": "atlas.items",
-        "texture_data": {
-            "ev_villager": {"textures": f"textures/{NS}/items/villager"},
-            "ev_baby_villager": {"textures": f"textures/{NS}/items/baby_villager"},
-        }})
+        "resource_pack_name": NS, "texture_name": "atlas.items", "texture_data": tex})
 
 # ---------------------------------------------------------------------------
 # Receitas (data/easy_villagers/recipe/*.json)
@@ -488,6 +505,15 @@ def gen_display_entity():
         "minecraft:entity": {
             "description": {"identifier": f"{NS}:display", "is_spawnable": False,
                             "is_summonable": True, "properties": props},
+            # Caixa de toque grande cobre o interior do bloco (abre o baú);
+            # mínima deixa o toque passar para o aldeão real do Comerciante.
+            "component_groups": {
+                f"{NS}:big": {"minecraft:collision_box": {"width": 0.85, "height": 0.9}},
+            },
+            "events": {
+                f"{NS}:become_big": {"add": {"component_groups": [f"{NS}:big"]}},
+                f"{NS}:become_small": {"remove": {"component_groups": [f"{NS}:big"]}},
+            },
             "components": {
                 "minecraft:type_family": {"family": [f"{NS}_display", "inanimate"]},
                 "minecraft:collision_box": {"width": 0.01, "height": 0.01},
@@ -498,7 +524,8 @@ def gen_display_entity():
                 "minecraft:knockback_resistance": {"value": 1},
                 "minecraft:fire_immune": {},
                 "minecraft:persistent": {},
-                "minecraft:inventory": {"inventory_size": 12, "container_type": "inventory", "private": True},
+                # Interface de baú nativa ao tocar na entidade da máquina
+                "minecraft:inventory": {"inventory_size": 27, "container_type": "minecart_chest", "private": True},
                 "minecraft:nameable": {"always_show": False, "allow_name_tag_renaming": False},
             },
         },
@@ -601,6 +628,24 @@ def draw_villager_icon(baby: bool) -> Image.Image:
     return im
 
 
+def make_packed_icons(folder: Path):
+    """Ícone 32x32 de cada máquina cheia: prévia isométrica do bloco convertido
+    (tools/preview_geometry.py) + cabeça de aldeão no canto."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import preview_geometry as pg  # noqa: E402
+    head = draw_villager_icon(False).resize((14, 14), Image.Resampling.NEAREST)
+    for block in BLOCKS:
+        bones = {"frame"} | ({"workstation"} if "trader" in block else set()) | \
+                ({"crop"} if block == "farmer" else set()) | ({"bed"} if block == "breeder" else set())
+        im = pg.render(block, bones, label=False)
+        bbox = im.getbbox()
+        im = im.crop(bbox).resize((30, 30), Image.Resampling.LANCZOS)
+        icon = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+        icon.alpha_composite(im, (1, 1))
+        icon.alpha_composite(head, (18, 18))
+        icon.save(folder / f"{block}_packed.png")
+
+
 def gen_textures():
     out = RP / "textures" / NS
     (out / "blocks").mkdir(parents=True, exist_ok=True)
@@ -613,6 +658,7 @@ def gen_textures():
         shutil.copy(OA / "textures" / "gui" / f"{g}.png", out / "gui" / f"{g}.png")
     draw_villager_icon(False).save(out / "items" / "villager.png")
     draw_villager_icon(True).save(out / "items" / "baby_villager.png")
+    make_packed_icons(out / "items")
     icon = Image.open(ORIG / "icon.png").convert("RGBA").resize((128, 128), Image.Resampling.LANCZOS)
     icon.save(RP / "pack_icon.png")
     icon.save(BP / "pack_icon.png")
@@ -662,6 +708,11 @@ def gen_langs():
             if k.startswith("item.") and k.count(".") == 2:
                 lines.append(f"item.{NS}:{k.split('.')[-1]}={v}")
                 lines.append(f"item.{NS}:{k.split('.')[-1]}.name={v}")
+        suffix = {"pt_BR": " (com conteúdo)", "en_US": " (filled)"}.get(bcode, " (+)")
+        for b in BLOCKS:
+            lines.append(f"item.{NS}.{b}_packed={j[f'block.{NS}.{b}']}{suffix}")
+            lines.append(f"item.{NS}:{b}_packed={j[f'block.{NS}.{b}']}{suffix}")
+        lines.append(f"entity.{NS}:display.name={j['itemGroup.easy_villagers']}")
         ui = dict(extra["en_US"])
         ui.update(extra.get(bcode, {}))
         lines.append("## Textos de interface do addon")
@@ -728,7 +779,7 @@ def main():
     gen_textures()
     gen_langs()
     gen_manifests()
-    print(f"OK: {len(BLOCKS)} blocos, 2 itens, {n} receitas, {len(TERRAIN)} texturas de terreno")
+    print(f"OK: {len(BLOCKS)} blocos, {2 + len(BLOCKS)} itens próprios, {n} receitas, {len(TERRAIN)} texturas de terreno")
 
 
 if __name__ == "__main__":

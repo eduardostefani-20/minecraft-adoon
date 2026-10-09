@@ -17,14 +17,17 @@ na tela) para ver erros de script/JSON.
 
 ## Comerciante
 - [ ] Usar atril e depois aldeão desempregado → vira bibliotecário; miniatura aparece.
-- [ ] Tocar no aldeão dentro do bloco → tela de troca vanilla.
+- [ ] Tocar no aldeão dentro do bloco → **tela de troca vanilla**, com as trocas reais.
 - [ ] Após esgotar uma troca, ela reabastece em 1–3 min (estação = profissão). ⚠️
 - [ ] Agachar + mão vazia → retira o aldeão (com as trocas); de novo → retira a estação.
 
 ## Comerciante Automático
-- [ ] Composteira + aldeão → fazendeiro; o menu mostra nível, XP e a troca atual.
-- [ ] Setas trocam a troca escolhida; colocar trigo (tocando com ele) gera esmeraldas.
-- [ ] Baú embaixo recebe as esmeraldas; funil em cima apontando para baixo alimenta.
+- [ ] Composteira + aldeão → fazendeiro; tocar no aldeão abre a mesma tela de troca vanilla.
+
+## Interface de baú
+- [ ] Tocar dentro do Fazendeiro/Criador/Conversor/Fazenda de Ferro/Incubadora abre um baú de 27 espaços. ⚠️
+- [ ] Colocar terra na linha de entrada do Criador → é devolvida na frente do bloco.
+- [ ] Tocar no piso com a mão vazia abre o menu de estado.
 
 ## Fazendeiro
 - [ ] Aldeão desempregado + sementes de trigo → a cultura cresce e é colhida; saída no menu.
@@ -48,8 +51,9 @@ na tela) para ver erros de script/JSON.
 - [ ] Aldeão fazendeiro com itens → "Abrir inventário do aldeão" lista os itens; retirar e guardar funcionam.
 
 ## Quebra e limpeza
-- [ ] Quebrar cada bloco no modo sobrevivência → bloco + conteúdo caem; miniaturas somem.
-- [ ] Explosão de TNT → conteúdo cai.
+- [ ] Quebrar (mirando no piso) uma máquina vazia → cai o bloco normal.
+- [ ] Quebrar uma máquina com aldeão/itens → cai "… (com conteúdo)" com brilho e descrição; colocá-lo restaura tudo (inclusive o aldeão do Comerciante, com as trocas).
+- [ ] Explosão de TNT → cai o item com conteúdo.
 - [ ] `/setblock` de ar sobre uma máquina → em até 10 s o conteúdo cai e as miniaturas somem.
 - [ ] Sair e voltar ao mundo → máquinas continuam com o conteúdo e o progresso.
 

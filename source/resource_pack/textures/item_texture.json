@@ -7,6 +7,30 @@
     },
     "ev_baby_villager": {
       "textures": "textures/easy_villagers/items/baby_villager"
+    },
+    "ev_trader_packed": {
+      "textures": "textures/easy_villagers/items/trader_packed"
+    },
+    "ev_auto_trader_packed": {
+      "textures": "textures/easy_villagers/items/auto_trader_packed"
+    },
+    "ev_farmer_packed": {
+      "textures": "textures/easy_villagers/items/farmer_packed"
+    },
+    "ev_breeder_packed": {
+      "textures": "textures/easy_villagers/items/breeder_packed"
+    },
+    "ev_converter_packed": {
+      "textures": "textures/easy_villagers/items/converter_packed"
+    },
+    "ev_iron_farm_packed": {
+      "textures": "textures/easy_villagers/items/iron_farm_packed"
+    },
+    "ev_incubator_packed": {
+      "textures": "textures/easy_villagers/items/incubator_packed"
+    },
+    "ev_inventory_viewer_packed": {
+      "textures": "textures/easy_villagers/items/inventory_viewer_packed"
     }
   }
 }

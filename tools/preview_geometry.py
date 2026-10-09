@@ -33,9 +33,9 @@ def face_quad(o, s, face):
     }[face]
 
 
-def render(block, bones):
+def render(block, bones, label=True):
     W = 360
-    img = Image.new("RGBA", (W, W), (32, 34, 40, 255))
+    img = Image.new("RGBA", (W, W), (32, 34, 40, 255) if label else (0, 0, 0, 0))
     d = ImageDraw.Draw(img, "RGBA")
     polys = []
     # Câmera a noroeste e acima: vê as faces norte (frente), oeste e topo.
@@ -71,7 +71,8 @@ def render(block, bones):
                 polys.append((depth, pts, col))
     for _, pts, col in sorted(polys, key=lambda p: p[0]):
         d.polygon(pts, fill=col, outline=(0, 0, 0, 60))
-    d.text((8, 8), block, fill=(255, 255, 255, 255))
+    if label:
+        d.text((8, 8), block, fill=(255, 255, 255, 255))
     return img
 
 

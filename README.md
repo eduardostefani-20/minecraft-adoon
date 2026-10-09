@@ -35,12 +35,18 @@ fazendeiro, criador, conversor, fazenda de ferro, incubadora e visualizador de i
 
 - **Pegar um aldeão:** agache e toque nele → vira o item *Aldeão* (guarda trocas, nível,
   nome e inventário). Use o item no chão para soltá-lo.
-- **Colocar nas máquinas:** toque no bloco segurando o aldeão, a estação de trabalho,
-  a semente ou os itens de entrada.
+- **Colocar nas máquinas:** toque no bloco segurando o aldeão, a estação de trabalho
+  ou a semente.
+- **Interface de baú:** toque dentro do Fazendeiro, Criador, Conversor, Fazenda de Ferro
+  ou Incubadora para abrir um baú: linha 1 = aldeões, linha 2 = entrada, linha 3 = saída.
+- **Troca:** no Comerciante e no Comerciante Automático, toque no aldeão dentro do vidro
+  → abre a **mesma tela de troca vanilla**, com as trocas reais do aldeão.
 - **Retirar:** agache e toque com a mão vazia (retira estação/semente/aldeão na mesma
   ordem do mod original).
-- **Menu:** toque com a mão vazia → mostra o estado e permite coletar a saída.
-- **Comerciante:** toque no aldeão dentro do vidro para negociar.
+- **Quebrar:** mire no **piso** do bloco. Uma máquina com conteúdo vira o item
+  "… (com conteúdo)", que guarda aldeões, itens e progresso; ao colocá-lo de novo,
+  tudo volta (como a caixa de shulker).
+- **Menu de estado:** toque no piso do bloco com a mão vazia.
 - **Automação:** um baú/funil **embaixo** recebe a saída; um funil **em cima**
   apontando para baixo abastece as entradas.
 
@@ -61,7 +67,7 @@ Lista completa em `docs/compatibilidade.md`.
 | | Encontrado | Convertido |
 |---|---|---|
 | Blocos | 8 | 8 (5 completos, 3 parciais) |
-| Itens | 9 (+ entrada "bebê" da aba criativa) | 9 (+1 item para o bebê criativo) |
+| Itens | 9 (+ entrada "bebê" da aba criativa) | 9 (+1 item para o bebê criativo, +8 itens "com conteúdo") |
 | Entidades | 0 | 0 (+1 entidade técnica de exibição) |
 | Receitas | 7 | 7 |
 | Loot tables | 7 | 7 |
@@ -94,7 +100,7 @@ Os scripts (`source/behavior_pack/scripts/*.js`) são escritos à mão; o restan
 npm install                 # tipagens oficiais @minecraft/server 2.4.0 e TypeScript
 python3 tools/generate.py   # regenera os pacotes a partir de original/
 npm run typecheck           # verifica os scripts contra a API real
-npm test                    # 25 testes (13 de regras + 12 de simulação)
+npm test                    # 26 testes (11 de regras + 15 de simulação)
 python3 tools/validate.py   # referências cruzadas
 python3 tools/build.py      # release/
 ```

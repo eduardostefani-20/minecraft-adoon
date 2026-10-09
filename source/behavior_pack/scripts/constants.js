@@ -93,7 +93,6 @@ export const DEFAULT_CONFIG = {
   trader_max_restock_time: 3600,
   auto_trader_min_restock_time: 1200,
   auto_trader_max_restock_time: 3600,
-  auto_trader_cooldown: 20,
   villager_inventory_sounds: true,
   villager_sound_amount: 20,
   incubator_speed: 2,
@@ -113,19 +112,29 @@ export const CONFIG_LIMITS = {
   trader_max_restock_time: [2, 2147483647],
   auto_trader_min_restock_time: [1, 2147483647],
   auto_trader_max_restock_time: [2, 2147483647],
-  auto_trader_cooldown: [1, 2147483647],
   villager_sound_amount: [1, 2147483647],
   incubator_speed: [1, 1024],
   villager_volume: [0, 1],
 };
 
-/** Layout do inventário da entidade-máquina (12 espaços). */
+/**
+ * Layout do inventário da entidade-máquina, aberto como interface de baú
+ * (27 espaços, 3 linhas):
+ *   linha 1: aldeão (0), 2º aldeão do Criador (1), demais livres-proibidos
+ *   linha 2: entradas, linha 3: saídas
+ */
+const range = (/** @type {number} */ a, /** @type {number} */ b) => Array.from({ length: b - a }, (_, i) => a + i);
 export const SLOT = {
   VILLAGER: 0,
   VILLAGER2: 1,
-  INPUT: [4, 5, 6, 7],
-  OUTPUT: [8, 9, 10, 11],
+  SPARE: range(2, 9),
+  INPUT: range(9, 18),
+  OUTPUT: range(18, 27),
 };
+export const CONTAINER_SIZE = 27;
+
+/** Máquinas cujo aldeão real fica dentro do bloco para a tela de troca vanilla. */
+export const HOSTED_KINDS = ["trader", "auto_trader"];
 
 /** Ticks por execução do componente minecraft:tick dos blocos. */
 export const TICK_STEP = 20;
@@ -133,5 +142,3 @@ export const TICK_STEP = 20;
 /** Idade de um bebê recém-nascido (Java: setAge(-24000)). */
 export const BABY_AGE = -24000;
 
-/** Limiares de XP de nível de aldeão (Java VillagerData). */
-export const LEVEL_XP = [0, 10, 70, 150, 250];

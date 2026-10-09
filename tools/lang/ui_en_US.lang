@@ -26,7 +26,6 @@ ui.easy_villagers.crop.6=Pitcher Plant
 ui.easy_villagers.villager_line=Villager: %s
 ui.easy_villagers.villager2_line=Villager 2: %s
 ui.easy_villagers.workstation_line=Workstation: %s
-ui.easy_villagers.trader_hint=Tap the villager inside the block to trade.
 ui.easy_villagers.level_line=Level %s - XP %s
 ui.easy_villagers.trade_line=Trade %s/%s: %s -> %s (%s/%s uses left)
 ui.easy_villagers.out_of_stock=Out of stock - waiting for restock
@@ -47,3 +46,5 @@ ui.easy_villagers.btn.inventory=Open villager inventory
 ui.easy_villagers.btn.take=Take:
 ui.easy_villagers.btn.deposit=Put held item in the villager inventory
 ui.easy_villagers.btn.close=Close
+ui.easy_villagers.trader_hint=Tap the villager inside the block to open the trading screen. Tap the floor of the block for this menu.
+ui.easy_villagers.chest_hint=Tap inside the block to open the chest interface: row 1 = villagers, row 2 = input, row 3 = output.

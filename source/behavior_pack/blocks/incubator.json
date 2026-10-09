@@ -90,7 +90,7 @@
         ],
         "size": [
           16,
-          16,
+          3,
           16
         ]
       },
@@ -102,7 +102,7 @@
       },
       "minecraft:light_dampening": 0,
       "minecraft:map_color": "#A7A7A7",
-      "minecraft:loot": "loot_tables/blocks/easy_villagers/incubator.json",
+      "minecraft:loot": "loot_tables/blocks/easy_villagers/empty.json",
       "minecraft:tick": {
         "interval_range": [
           20,

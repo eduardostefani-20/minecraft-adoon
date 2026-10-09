@@ -12,8 +12,8 @@ Legenda: ✅ concluído (implementado e coberto por teste automatizado fora do j
 
 | Bloco | Visual | Função | Observações |
 |---|---|---|---|
-| Comerciante | ✅ | 🟡 ⚠️ | Aldeão real hospedado (invisível, imóvel, protegido) + miniatura; troca pela tela vanilla; estação define profissão; reabastecimento por evento `minecraft:resupply_trades`. Ciclo de trocas não convertido |
-| Comerciante Automático | ✅ | 🟡 | Trocas automáticas funcionando, mas com "mercador virtual" (tabela vanilla Java) porque o Bedrock não expõe as ofertas do aldeão |
+| Comerciante | ✅ | ✅ ⚠️ | Aldeão real hospedado (invisível, imóvel, protegido) + miniatura; tocar nele abre a **tela de troca vanilla** com as trocas reais; estação define profissão; reabastecimento por evento `minecraft:resupply_trades`. Ciclo de trocas não convertido |
+| Comerciante Automático | ✅ | 🟡 | Por escolha do usuário, usa a **mesma tela de troca vanilla** (aldeão real hospedado) e seus próprios tempos de reabastecimento. **Não troca sozinho**: o Bedrock não deixa scripts lerem/executarem as trocas reais |
 | Fazendeiro | ✅ | ✅ | 6 culturas, crescimento 1/10 a cada segundo, colheita só com fazendeiro adulto, drops das loot tables vanilla |
 | Criador | ✅ | ✅ | 24 pontos de comida, bebê a cada 1200 ticks, corações e som |
 | Conversor | ✅ | 🟡 | Ciclo completo (consumo, fases, sons, aparência zumbificada), **sem o desconto de cura** (impossível por script) |
@@ -31,7 +31,8 @@ rotação de 4 direções de frente para o jogador, geometria fiel ao `farm.json
 | Item | Situação |
 |---|---|
 | Aldeão (`easy_villagers:villager`) | ✅ guarda o aldeão inteiro (estrutura); 🟡 ícone 2D recriado (o original é um modelo 3D dinâmico); ❌ uso por dispensador |
-| 8 itens de bloco | ✅ (o Bedrock gera o ícone 3D a partir da geometria); 🟡 não guardam o conteúdo — ele cai no chão ao quebrar |
+| 8 itens de bloco | ✅ (o Bedrock gera o ícone 3D a partir da geometria) |
+| 8 itens "… (com conteúdo)" | ✅ máquina quebrada guarda aldeões, itens e progresso (equivale ao `copy_block_entity` do Java); itens com encantamento/poção/durabilidade/nome caem no chão à parte |
 | "Aldeão bebê" da aba criativa | ✅ como item `easy_villagers:baby_villager`, convertido automaticamente em item de aldeão bebê |
 
 ## Receitas — 7 encontradas, 7 convertidas ✅
@@ -55,8 +56,8 @@ inventário das máquinas.
 | Sons do aldeão no inventário | ✅ |
 | Sons dos blocos (ambiente, zumbi, golem, estações, cura) | ✅ ⚠️ alguns IDs de som do Bedrock podem não existir (silenciosos se faltarem) |
 | Inserir/retirar aldeão, estação e semente (agachar + mão vazia) | ✅ mesma ordem de prioridade do Java |
-| Telas | 🟡 substituídas por formulários + inserção segurando o item |
-| Automação com funis | 🟡 saídas → recipiente abaixo; funil acima → entradas (Visualizador sem automação) |
+| Telas | ✅ interface de baú nativa (27 espaços) nas máquinas com itens; ⚠️ verificar no jogo; menu de estado ao tocar no piso |
+| Automação com funis | 🟡 saídas → recipiente abaixo; funil acima → entradas (Visualizador e comerciantes sem automação) |
 | Configuração | ✅ 14 opções via `/scriptevent` |
 | Idiomas | ✅ 14 de 16 (Bedrock não tem croata nem chinês clássico) |
 | Ciclo de trocas | ❌ |

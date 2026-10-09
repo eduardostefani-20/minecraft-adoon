@@ -237,9 +237,23 @@ def main():
     used_props = set(re.findall(r"query\.property\('([^']+)'\)", json.dumps([ce, rcs, anims])))
     for up in used_props - set(props):
         err(f"propriedade {up} usada no RP mas não declarada")
+    events = set(ent.get("events", {}))
+    block_states = set()
+    for p in (BP / "blocks").glob("*.json"):
+        block_states |= set(all_json[p]["minecraft:block"]["description"].get("states", {}))
     for pname in re.findall(r'P\("(\w+)"\)', scripts):
+        if f"{NS}:{pname}" not in set(props) | events | block_states:
+            err(f"script usa propriedade/evento/estado inexistente {pname}")
+    for pname in re.findall(r'setProp\([^,]+, "(\w+)"', scripts):
         if f"{NS}:{pname}" not in props:
             err(f"script usa propriedade inexistente {pname}")
+    for st in re.findall(r'setBlockState\([^,]+, "(\w+)"', scripts):
+        if f"{NS}:{st}" not in block_states:
+            err(f"script usa estado de bloco inexistente {st}")
+    for evn, evd in ent.get("events", {}).items():
+        for g in evd.get("add", {}).get("component_groups", []) + evd.get("remove", {}).get("component_groups", []):
+            if g not in ent.get("component_groups", {}):
+                err(f"evento {evn} usa grupo inexistente {g}")
     for t in ce["textures"].values():
         external.add(t)
 

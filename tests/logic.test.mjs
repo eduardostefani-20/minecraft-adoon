@@ -5,13 +5,10 @@ import {
   CROPS, DEFAULT_CONFIG, PROFESSIONS, WORKSTATIONS, cropForSeed, workstationForItem,
 } from "../source/behavior_pack/scripts/constants.js";
 import {
-  addAutoXp, advanceAge, converterTimes, cropDrops, crossed, displayYaw, foodValue, golemDrops, golemTimes,
-  incubatorStep, levelForXp, newAutoState, planFoodRemoval, restockDelay, rotateOffset, rollTier, tradeOf,
+  advanceAge, converterTimes, cropDrops, crossed, displayYaw, foodValue, golemDrops, golemTimes,
+  incubatorStep, planFoodRemoval, restockDelay, rotateOffset,
 } from "../source/behavior_pack/scripts/logic.js";
-import { TRADES } from "../source/behavior_pack/scripts/trades.js";
 
-const seq = (...v) => { let i = 0; return () => v[i++ % v.length]; };
-const all = () => true;
 
 test("configuração padrão igual ao ServerConfig original", () => {
   assert.equal(DEFAULT_CONFIG.breeding_time, 1200);
@@ -19,7 +16,6 @@ test("configuração padrão igual ao ServerConfig original", () => {
   assert.equal(DEFAULT_CONFIG.farm_speed, 10);
   assert.equal(DEFAULT_CONFIG.golem_spawn_time, 4800);
   assert.equal(DEFAULT_CONFIG.incubator_speed, 2);
-  assert.equal(DEFAULT_CONFIG.auto_trader_cooldown, 20);
 });
 
 test("estações de trabalho mapeiam para a profissão correta", () => {
@@ -93,31 +89,4 @@ test("rotação das miniaturas segue o PoseStack Java", () => {
   assert.ok(Math.abs(s.z + 0.25) < 1e-9);
   assert.equal(displayYaw("north", 0), 180);
   assert.equal(displayYaw("north", 90), 90);
-});
-
-test("tabela de trocas bem-formada", () => {
-  for (const [prof, tiers] of Object.entries(TRADES)) {
-    assert.ok(PROFESSIONS.includes(prof), prof);
-    assert.equal(tiers.length, 5, prof);
-    for (const tier of tiers) for (const t of tier) {
-      assert.match(t[0][0], /^minecraft:/);
-      assert.ok(t[0][1] > 0 && t[2][1] > 0 && t[3] > 0 && t[4] > 0);
-    }
-  }
-  assert.equal(Object.keys(TRADES).length, 13);
-});
-
-test("mercador virtual: 2 trocas por nível e subida de nível", () => {
-  const s = newAutoState(1, seq(0, 0.5), all);
-  assert.equal(s.lvl, 1);
-  assert.equal(s.trades.length, 2);
-  assert.equal(levelForXp(9), 1);
-  assert.equal(levelForXp(10), 2);
-  assert.equal(levelForXp(250), 5);
-  assert.ok(addAutoXp(s, 1, 10, seq(0), all));
-  assert.equal(s.lvl, 2);
-  assert.equal(s.trades.length, 4);
-  assert.ok(tradeOf(s.trades[0], 1));
-  // filtro de itens inexistentes
-  assert.equal(rollTier(1, 0, seq(0), () => false).length, 0);
 });

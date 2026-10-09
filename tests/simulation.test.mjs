@@ -39,7 +39,9 @@ async function tick(block, n) {
 }
 const machineOf = (b) => machines.findMachine(b);
 const slots = (b, list) => list.map((i) => machineOf(b).getComponent("minecraft:inventory").container.getItem(i));
-const outputs = (b) => slots(b, [8, 9, 10, 11]).filter(Boolean);
+const OUT = [18, 19, 20, 21, 22, 23, 24, 25, 26];
+const IN = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+const outputs = (b) => slots(b, OUT).filter(Boolean);
 function villagerItem(prof = 0, baby = false) {
   return makeVillagerItem({ prof, biome: 0, baby, age: baby ? -24000 : 0, pending: [] });
 }
@@ -112,7 +114,7 @@ test("Criador: dois adultos + 24 pontos de comida geram um bebê", async () => {
   assert.equal(out.length, 1);
   const d = readData(out[0]);
   assert.ok(d.baby);
-  assert.equal(slots(b, [4])[0].amount, 1, "6 pães consumidos");
+  assert.equal(slots(b, [9])[0].amount, 1, "6 pães consumidos");
   assert.ok(dim.particles >= 5);
 });
 
@@ -135,7 +137,7 @@ test("Incubadora: bebê cresce e sai adulto", async () => {
   const b = place("incubator", 130);
   await advance(1);
   await useOn(b, villagerItem(0, true));
-  assert.ok(slots(b, [4])[0]);
+  assert.ok(slots(b, [9])[0]);
   await tick(b, 12000 / 20 + 3);
   const out = outputs(b);
   assert.equal(out.length, 1);
@@ -152,30 +154,31 @@ test("Conversor: aldeão + maçã dourada + poção de fraqueza", async () => {
   await useOn(b, potion);
   await tick(b, 4);
   assert.ok(slots(b, [0])[0], "aldeão em conversão");
-  assert.ok(machineOf(b).getProperty("easy_villagers:zombified"), "aparência zumbificada");
+  const mini = world.getEntity(JSON.parse(machineOf(b).getDynamicProperty("ev:state")).aux.v1);
+  assert.ok(mini.getProperty("easy_villagers:zombified"), "aparência zumbificada");
   await tick(b, 6200 / 20);
   assert.equal(outputs(b).length, 1);
-  assert.equal(slots(b, [4, 5, 6, 7]).filter(Boolean).length, 0, "insumos consumidos");
+  assert.equal(slots(b, IN).filter(Boolean).length, 0, "insumos consumidos");
 });
 
-test("Comerciante Automático: troca 20 trigos por 1 esmeralda e sobe XP", async () => {
-  Math.random = () => 0;
-  const b = place("auto_trader", 150, { "easy_villagers:workstation": 0 });
+test("Comerciante Automático: também hospeda o aldeão real (tela de troca vanilla)", async () => {
+  const b = place("auto_trader", 150);
   await advance(1);
   await useOn(b, new ItemStack("minecraft:composter", 1));
   assert.equal(b.permutation.getState("easy_villagers:workstation"), 1);
   await useOn(b, villagerItem(0));
-  let d = readData(slots(b, [0])[0]);
-  assert.equal(d.prof, 1, "desempregado vira fazendeiro");
-  assert.ok(d.auto && d.auto.trades.length === 2);
-  await useOn(b, new ItemStack("minecraft:wheat", 40));
-  await tick(b, 2);
-  Math.random = realRandom;
-  const out = outputs(b);
-  assert.equal(out[0].typeId, "minecraft:emerald");
-  assert.equal(out[0].amount, 2);
-  d = readData(slots(b, [0])[0]);
-  assert.equal(d.auto.xp, 4);
+  await advance(5);
+  const host = dim.getEntities({ type: "minecraft:villager_v2", tags: [HOST_TAG] })
+    .find((e) => Math.floor(e.location.x) === 150);
+  assert.ok(host, "aldeão hospedado");
+  assert.ok(host.events.includes("minecraft:spawn_farmer"));
+  assert.equal(machineOf(b).big, false, "toque passa para o aldeão");
+  // Tocar no aldeão sem agachar e sem item: não cancela -> tela de troca vanilla
+  player.isSneaking = false;
+  inv.setItem(0, undefined);
+  const ev = { player, target: host, cancel: false };
+  world.beforeEvents.playerInteractWithEntity._l[0](ev);
+  assert.equal(ev.cancel, false);
 });
 
 test("Comerciante: hospeda o aldeão real e devolve ao agachar", async () => {
@@ -184,7 +187,8 @@ test("Comerciante: hospeda o aldeão real e devolve ao agachar", async () => {
   await useOn(b, new ItemStack("minecraft:lectern", 1));
   await useOn(b, villagerItem(0));
   await advance(5);
-  const host = dim.getEntities({ type: "minecraft:villager_v2", tags: [HOST_TAG] })[0];
+  const host = dim.getEntities({ type: "minecraft:villager_v2", tags: [HOST_TAG] })
+    .find((e) => Math.floor(e.location.x) === 160);
   assert.ok(host, "aldeão hospedado");
   assert.ok(host.getEffect("invisibility") && host.getEffect("resistance"));
   assert.ok(host.events.includes("minecraft:spawn_librarian"));
@@ -202,17 +206,71 @@ test("Comerciante: hospeda o aldeão real e devolve ao agachar", async () => {
   // sem agachar e mão vazia: abre a troca vanilla (não cancela)
 });
 
-test("Quebrar bloco derruba o conteúdo e apaga as miniaturas", async () => {
+test("Quebrar guarda o conteúdo no item do bloco e recolocar restaura", async () => {
   const b = place("breeder", 170);
   await advance(1);
   await useOn(b, villagerItem(1));
+  await useOn(b, new ItemStack("minecraft:bread", 3));
   const m = machineOf(b);
   const aux = Object.values(JSON.parse(m.getDynamicProperty("ev:state")).aux);
   const before = dim.items.length;
   world.afterEvents.playerBreakBlock._l[0]({ player, block: b, brokenBlockPermutation: b.permutation });
+  await advance(2);
   assert.ok(!m.isValid);
   for (const id of aux) assert.ok(!world.getEntity(id));
-  assert.equal(dim.items.length - before, 1);
+  const dropped = dim.items.slice(before);
+  assert.equal(dropped.length, 1);
+  assert.equal(dropped[0].typeId, "easy_villagers:breeder_packed");
+  // recolocar
+  dim.setBlock(new Block(dim, b.location, "minecraft:air"));
+  const ground = dim.setBlock(new Block(dim, { x: 170, y: 63, z: 0 }, "minecraft:stone"));
+  await useOn(ground, dropped[0]);
+  await advance(2);
+  const nb = dim.getBlock({ x: 170, y: 64, z: 0 });
+  assert.equal(nb.typeId, "easy_villagers:breeder");
+  assert.equal(readData(slots(nb, [0])[0]).prof, 1, "aldeão restaurado");
+  assert.equal(slots(nb, [9])[0].amount, 3, "comida restaurada");
+  assert.equal(inv.getItem(0), undefined, "item consumido");
+});
+
+test("Quebrar máquina vazia derruba o bloco normal", async () => {
+  const b = place("incubator", 175);
+  await advance(1);
+  const before = dim.items.length;
+  world.afterEvents.playerBreakBlock._l[0]({ player, block: b, brokenBlockPermutation: b.permutation });
+  await advance(1);
+  assert.equal(dim.items.slice(before).map((i) => i.typeId).join(), "easy_villagers:incubator");
+});
+
+test("Comerciante quebrado leva o aldeão real dentro do item", async () => {
+  const b = place("trader", 178);
+  await advance(1);
+  await useOn(b, villagerItem(0));
+  await advance(5);
+  const before = dim.items.length;
+  world.afterEvents.playerBreakBlock._l[0]({ player, block: b, brokenBlockPermutation: b.permutation });
+  await advance(4);
+  const dropped = dim.items.slice(before);
+  assert.equal(dropped.length, 1);
+  assert.equal(dropped[0].typeId, "easy_villagers:trader_packed");
+  assert.equal(dim.getEntities({ type: "minecraft:villager_v2", tags: [HOST_TAG] }).filter((e) => Math.floor(e.location.x) === 178).length, 0);
+});
+
+test("Interface de baú: tocar na entidade abre o baú; item inválido na entrada é devolvido", async () => {
+  const b = place("converter", 185);
+  await advance(1);
+  const m = machineOf(b);
+  assert.equal(m.big, true, "caixa de toque grande");
+  player.isSneaking = false;
+  inv.setItem(0, undefined);
+  const ev = { player, target: m, itemStack: undefined, cancel: false };
+  world.beforeEvents.playerInteractWithEntity._l[0](ev);
+  assert.equal(ev.cancel, false, "baú nativo abre");
+  m.getComponent("minecraft:inventory").container.setItem(9, new ItemStack("minecraft:dirt", 4));
+  const before = dim.items.length;
+  await tick(b, 1);
+  assert.equal(slots(b, [9])[0], undefined);
+  assert.equal(dim.items.slice(before)[0].typeId, "minecraft:dirt");
 });
 
 test("Varredura: bloco removido por outros meios devolve o conteúdo", async () => {
@@ -230,7 +288,7 @@ test("Varredura: bloco removido por outros meios devolve o conteúdo", async () 
 test("Menu do Fazendeiro abre e coleta a saída", async () => {
   const b = place("farmer", 190, { "easy_villagers:crop": 0, "easy_villagers:stage": 0 });
   await advance(1);
-  machineOf(b).getComponent("minecraft:inventory").container.setItem(8, new ItemStack("minecraft:carrot", 5));
+  machineOf(b).getComponent("minecraft:inventory").container.setItem(18, new ItemStack("minecraft:carrot", 5));
   ui.respond = (data) => ({ canceled: false, selection: data.buttons.findIndex((x) => x.t.translate === "ui.easy_villagers.btn.collect") });
   inv.setItem(1, undefined);
   await useOn(b, undefined);

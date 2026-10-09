@@ -59,6 +59,30 @@
         }
       }
     },
+    "component_groups": {
+      "easy_villagers:big": {
+        "minecraft:collision_box": {
+          "width": 0.85,
+          "height": 0.9
+        }
+      }
+    },
+    "events": {
+      "easy_villagers:become_big": {
+        "add": {
+          "component_groups": [
+            "easy_villagers:big"
+          ]
+        }
+      },
+      "easy_villagers:become_small": {
+        "remove": {
+          "component_groups": [
+            "easy_villagers:big"
+          ]
+        }
+      }
+    },
     "components": {
       "minecraft:type_family": {
         "family": [
@@ -96,8 +120,8 @@
       "minecraft:fire_immune": {},
       "minecraft:persistent": {},
       "minecraft:inventory": {
-        "inventory_size": 12,
-        "container_type": "inventory",
+        "inventory_size": 27,
+        "container_type": "minecart_chest",
         "private": true
       },
       "minecraft:nameable": {

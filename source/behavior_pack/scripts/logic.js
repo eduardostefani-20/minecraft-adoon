@@ -2,8 +2,7 @@
 // Regras de jogo puras (sem @minecraft/server), reproduzindo o código Java
 // descompilado do Easy Villagers. Testadas em tests/logic.test.mjs.
 
-import { BREED_FOOD_NEEDED, CROPS, FOOD_POINTS, LEVEL_XP, PROFESSIONS } from "./constants.js";
-import { TRADES } from "./trades.js";
+import { BREED_FOOD_NEEDED, CROPS, FOOD_POINTS } from "./constants.js";
 
 /** @typedef {() => number} Rng */
 
@@ -159,68 +158,4 @@ export function rotateOffset(dir, x, z) {
 export function displayYaw(/** @type {string} */ dir, /** @type {number} */ extra) {
   const y = (DIR_YROT[/** @type {keyof typeof DIR_YROT} */ (dir)] ?? 180) - extra;
   return ((y % 360) + 360) % 360;
-}
-
-// ---------------------------------------------------------------------------
-// Mercador virtual do Comerciante Automático
-// ---------------------------------------------------------------------------
-
-/** @typedef {{lvl: number, xp: number, trades: Array<{t: number, i: number, u: number}>}} AutoState */
-
-/** Nível (1..5) correspondente a um total de XP. */
-export function levelForXp(/** @type {number} */ xp) {
-  let lvl = 1;
-  for (let i = 1; i < LEVEL_XP.length; i++) if (xp >= LEVEL_XP[i]) lvl = i + 1;
-  return lvl;
-}
-
-/**
- * Sorteia até 2 trocas de um nível (VillagerTrades: 2 ofertas por nível).
- * @param {number} prof variante de profissão
- * @param {number} tier 0..4
- * @param {Rng} rng
- * @param {(id: string) => boolean} valid
- */
-export function rollTier(prof, tier, rng, valid) {
-  const pool = TRADES[PROFESSIONS[prof]]?.[tier] ?? [];
-  const idx = [];
-  for (let i = 0; i < pool.length; i++) {
-    const t = pool[i];
-    if (valid(t[0][0]) && valid(t[2][0]) && (!t[1] || valid(t[1][0]))) idx.push(i);
-  }
-  const chosen = [];
-  while (idx.length > 0 && chosen.length < 2) {
-    const k = Math.floor(rng() * idx.length);
-    chosen.push({ t: tier, i: idx[k], u: 0 });
-    idx.splice(k, 1);
-  }
-  return chosen;
-}
-
-/** Cria o estado inicial (nível 1). */
-export function newAutoState(/** @type {number} */ prof, /** @type {Rng} */ rng, /** @type {(id: string) => boolean} */ valid) {
-  /** @type {AutoState} */
-  const s = { lvl: 1, xp: 0, trades: rollTier(prof, 0, rng, valid) };
-  return s;
-}
-
-/**
- * Aplica XP de uma troca e sobe de nível se necessário
- * (increaseMerchantCareer adiciona as ofertas do novo nível).
- * @param {AutoState} s
- */
-export function addAutoXp(s, /** @type {number} */ prof, /** @type {number} */ xp, /** @type {Rng} */ rng, /** @type {(id: string) => boolean} */ valid) {
-  s.xp += xp;
-  let leveled = false;
-  while (s.lvl < 5 && s.xp >= LEVEL_XP[s.lvl]) {
-    s.lvl++;
-    s.trades.push(...rollTier(prof, s.lvl - 1, rng, valid));
-    leveled = true;
-  }
-  return leveled;
-}
-
-/** @param {{t: number, i: number}} ref @param {number} prof */
-export function tradeOf(ref, prof) {
-  return TRADES[PROFESSIONS[prof]]?.[ref.t]?.[ref.i];
 }
