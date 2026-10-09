@@ -24,7 +24,7 @@ BP = ROOT / "source" / "behavior_pack"
 RP = ROOT / "source" / "resource_pack"
 NS = "easy_villagers"
 
-VERSION = [1, 0, 0]
+VERSION = [1, 1, 0]
 MIN_ENGINE = [1, 26, 0]
 SERVER_API = "2.4.0"
 SERVER_UI_API = "2.0.0"
